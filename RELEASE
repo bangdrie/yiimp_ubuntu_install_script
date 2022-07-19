@@ -1,1 +1,22 @@
-0.2
+0.2v Release 2022-07-20 @bangdrie
+
+php fixes.
+    -> added missing php7.2-memcache php7.2-memcached
+
+SQL fixes.
+    -> Now fully support solo mining.
+    -> The script now import the missing block table
+    -> the scrip also now import missing coins_thepool_life table
+    -> Update SQL DUMP to: 2020-11-10-yaamp.sql.gz
+
+
+Serverconfig Update.
+    -> Added solo fee
+    -> Update sample cold wallet address.
+    -> Update default color template.
+    
+
+Other.
+    -> Added figlet
+    -> Terminal art fix on start and end
+    -> The script now create a builder on HOME for upcoming.
