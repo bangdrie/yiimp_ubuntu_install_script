@@ -47,15 +47,15 @@ cd yiimp_ubuntu_install_script
 bash install.sh
 ```
 - > It will take some time for the installation to be finnished and it will do for you.
-### Now let's make the system switch from php 8.* to 7.2
+### Now let's make the system switch from php 8.* to 7.3
 ```
 sudo update-alternatives --config php
 ```
-- > select the option corresponding to PHP7.2
+- > select the option corresponding to PHP7.3
 ### Now just restart nginx and php
 ```
 sudo service nginx restart
-sudo service php7.2-fpm restart
+sudo service php7.3-fpm restart
 ```
 
 ***********************************
