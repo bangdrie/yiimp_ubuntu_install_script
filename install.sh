@@ -40,7 +40,7 @@
     
     #Copy needed files
     cd
-    sudo mkdir buildcoin
+    mkdir buildcoin
     cd $HOME/yiimp_ubuntu_install_script
     sudo cp -r conf/functions.sh /etc/
     sudo cp -r utils/screen-scrypt.sh /etc/
