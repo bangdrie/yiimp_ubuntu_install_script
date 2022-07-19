@@ -3,12 +3,13 @@ Thanks to cryptopool-builders !!!!!!!!
 
 Information =>
 * Works with Ubuntu Server 16.04 / 18.04
-* Update PHP 7.3
+* Update PHP 7.2
 * Change Aptitude by APT
 * Remove question Panel Admin
 * Remove question Time Zone
 * Add screen-scrypt to crontab
 * Add script to remove all coin (utils/delcoin.sh)
+* Add script to build daemon (utils/builder.sh)
 
 Fix =>
 * Fix command cli « Yiimp » : OK
