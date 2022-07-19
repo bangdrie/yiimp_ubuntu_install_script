@@ -385,7 +385,7 @@
     
     # Compil Blocknotify
     cd ~
-    git clone https://github.com/bangdrie/yiimp.git -b main
+    git clone https://github.com/bangdrie/yiimp2
     cd $HOME/yiimp/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     make -j$((`nproc`+1))
@@ -416,6 +416,10 @@
     sudo cp -r $HOME/yiimp/bin/. /bin/
     sudo cp -r $HOME/yiimp/blocknotify/blocknotify /bin/
     sudo cp -r $HOME/yiimp/blocknotify/blocknotify /var/stratum/
+    sudo chmod +x /bin/blocknotify.sh
+    sudo chmod +x /bin/kill_stratum
+    sudo chmod +x /bin/yiimp
+    sudo chmod +x /bin/yiimp_restart_loop.sh    
     sudo mkdir -p /etc/yiimp
     sudo mkdir -p /$HOME/backup/
     #fixing yiimp
