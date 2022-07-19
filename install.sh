@@ -78,9 +78,9 @@
     echo -e "$GREEN Done...$COL_RESET"
 
 
-    source conf/prerequisite.sh
+    source /conf/prerequisite.sh
     sleep 3
-    source conf/getip.sh
+    source /conf/getip.sh
 
 
     echo 'PUBLIC_IP='"${PUBLIC_IP}"'
