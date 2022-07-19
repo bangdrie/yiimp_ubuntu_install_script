@@ -134,7 +134,7 @@
     sudo systemctl enable cron.service
     sleep 5
     sudo systemctl status nginx | sed -n "1,3p"
-    sleep 15
+    sleep 8
     echo
     echo -e "$GREEN Done...$COL_RESET"
     
