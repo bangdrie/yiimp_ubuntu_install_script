@@ -8,6 +8,12 @@
 #   Install yiimp on Ubuntu 16.04/18.04 running Nginx, MariaDB, and php7.3
 #   v0.2 (update Avril, 2020)
 # 
+# Current modified by : bangdrie
+# web: https://github.com/bangdrie
+# Program:
+#   Install yiimp on Ubuntu 16.04/18.04 running Nginx, MariaDB, and php7.3
+#   v0.2 (2022-07-19 Fixed solo fee in serverconfig.php)
+#        (2022-07-19 added block.sql and coins_thepool_life.sql dump)
 ################################################################################
     
 
