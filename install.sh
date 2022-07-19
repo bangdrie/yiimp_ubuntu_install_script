@@ -8,6 +8,12 @@
 #   Install yiimp on Ubuntu 16.04/18.04 running Nginx, MariaDB, and php7.2
 #   v0.2 (update Avril, 2020)
 # 
+# Current modified by : bangdrie
+# web: https://github.com/bangdrie
+# Program:
+#   Install yiimp on Ubuntu 16.04/18.04 running Nginx, MariaDB, and php7.3
+#   v0.2 (2022-07-19 Fixed solo fee in serverconfig.php)
+#        (2022-07-19 added block.sql and coins_thepool_life.sql dump)
 ################################################################################
     
 
@@ -32,11 +38,10 @@
     '""''"${whoami}"''""' ALL=(ALL) NOPASSWD:ALL
     ' | sudo -E tee /etc/sudoers.d/${whoami} >/dev/null 2>&1
     
-    
+    #Copy needed files
     cd
     sudo mkdir buildcoin
     cd $HOME/yiimp_ubuntu_install_script
-    #Copy needed files
     sudo cp -r conf/functions.sh /etc/
     sudo cp -r utils/screen-scrypt.sh /etc/
     sudo cp -r utils/screen-stratum.sh /etc/
@@ -51,8 +56,8 @@
     clear
     echo
     echo -e "$GREEN************************************************************************$COL_RESET"
-    echo -e "$GREEN Yiimp Install Script v0.2 $COL_RESET"
-    echo -e "$GREEN Install yiimp on Ubuntu 16.04/18.04 running Nginx, MariaDB, and php7.4 $COL_RESET"
+    echo -e "$GREEN Yiimp Ubuntu Install Script v0.2 Modified by bangdrie $COL_RESET"
+    echo -e "$GREEN Install yiimp on Ubuntu 16.04/18.04 running Nginx, MariaDB, and php7.3 $COL_RESET"
     echo -e "$GREEN************************************************************************$COL_RESET"
     echo
     sleep 3
@@ -166,10 +171,10 @@
     echo -e "$GREEN Done...$COL_RESET"
 
     
-    # Installing Installing php7.4
+    # Installing Installing php7.3
     echo
     echo
-    echo -e "$CYAN => Installing php7.4 : $COL_RESET"
+    echo -e "$CYAN => Installing php7.3 : $COL_RESET"
     echo
     sleep 3
     
@@ -180,21 +185,21 @@
     sudo apt -y update
 
     if [[ ("$DISTRO" == "16") ]]; then
-    sudo apt -y install php7.2-fpm php7.2-opcache php7.2 php7.2-common php7.2-gd php7.2-mysql php7.2-imap php7.2-cli \
-    php7.2-cgi php-pear php-auth imagemagick libruby php7.2-curl php7.2-intl php7.2-pspell mcrypt\
-    php7.2-recode php7.2-sqlite3 php7.2-tidy php7.2-xmlrpc php7.2-xsl memcached php-memcache php-imagick php-gettext php7.2-zip php7.2-mbstring
+    sudo apt -y install php7.3-fpm php7.3-opcache php7.3 php7.3-common php7.3-gd php7.3-mysql php7.3-imap php7.3-cli \
+    php7.3-cgi php-pear php-auth imagemagick libruby php7.3-curl php7.3-intl php7.3-pspell mcrypt\
+    php7.3-recode php7.3-sqlite3 php7.3-tidy php7.3-xmlrpc php7.3-xsl memcached php-memcache php-imagick php-gettext php7.3-zip php7.3-mbstring
     #sudo phpenmod mcrypt
     #sudo phpenmod mbstring
     else
-    sudo apt -y install php7.2-fpm php7.2-opcache php7.2 php7.2-common php7.2-gd php7.2-mysql php7.2-imap php7.2-cli \
-    php7.2-cgi php-pear imagemagick libruby php7.2-curl php7.2-intl php7.2-pspell mcrypt\
-    php7.2-recode php7.2-sqlite3 php7.2-tidy php7.2-xmlrpc php7.2-xsl memcached php7.2-memcache php7.2-memcached php-imagick php-gettext php7.2-zip php7.2-mbstring \
+    sudo apt -y install php7.3-fpm php7.3-opcache php7.3 php7.3-common php7.3-gd php7.3-mysql php7.3-imap php7.3-cli \
+    php7.3-cgi php-pear imagemagick libruby php7.3-curl php7.3-intl php7.3-pspell mcrypt\
+    php7.3-recode php7.3-sqlite3 php7.3-tidy php7.3-xmlrpc php7.3-xsl memcached php7.3-memcache php7.3-memcached php-imagick php-gettext php7.3-zip php7.3-mbstring \
     libpsl-dev libnghttp2-dev
     fi
     sleep 5
-    sudo systemctl start php7.2-fpm
-    sudo systemctl status php7.2-fpm | sed -n "1,3p"
-    sleep 15
+    sudo systemctl start php7.3-fpm
+    sudo systemctl status php7.3-fpm | sed -n "1,3p"
+    sleep 8
     echo
     echo -e "$GREEN Done...$COL_RESET"
 
@@ -380,7 +385,7 @@
     
     # Compil Blocknotify
     cd ~
-    git clone https://github.com/Kudaraidee/yiimp.git -b poolmine
+    git clone https://github.com/bangdrie/yiimp2
     cd $HOME/yiimp/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     make -j$((`nproc`+1))
@@ -400,7 +405,7 @@
     
     # Copy Files (Blocknotify,iniparser,Stratum)
     cd $HOME/yiimp
-    sudo sed -i 's/AdminRights/'AdminPanel'/' $HOME/yiimp/web/yaamp/modules/site/SiteController.php
+    sudo sed -i 's/myadmin/'AdminPanel'/' $HOME/yiimp/web/yaamp/modules/site/SiteController.php
     sudo cp -r $HOME/yiimp/web /var/
     sudo mkdir -p /var/stratum
     cd $HOME/yiimp/stratum
@@ -411,6 +416,10 @@
     sudo cp -r $HOME/yiimp/bin/. /bin/
     sudo cp -r $HOME/yiimp/blocknotify/blocknotify /bin/
     sudo cp -r $HOME/yiimp/blocknotify/blocknotify /var/stratum/
+    sudo chmod +x /bin/blocknotify.sh
+    sudo chmod +x /bin/kill_stratum
+    sudo chmod +x /bin/yiimp
+    sudo chmod +x /bin/yiimp_restart_loop.sh    
     sudo mkdir -p /etc/yiimp
     sudo mkdir -p /$HOME/backup/
     #fixing yiimp
@@ -497,7 +506,7 @@
     
         location ~ ^/index\.php$ {
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
-            fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+            fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
             fastcgi_index index.php;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -529,7 +538,7 @@
             deny all;
       }
         location ~ /phpmyadmin/(.+\.php)$ {
-            fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+            fastcgi_pass unix:/run/php/php7.3-fpm.sock;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi_params;
             include snippets/fastcgi-php.conf;
@@ -540,7 +549,7 @@
 
     sudo ln -s /etc/nginx/sites-available/$server_name.conf /etc/nginx/sites-enabled/$server_name.conf
     sudo ln -s /var/web /var/www/$server_name/html
-    sudo systemctl reload php7.2-fpm.service
+    sudo systemctl reload php7.3-fpm.service
     sudo systemctl restart nginx.service
     echo -e "$GREEN Done...$COL_RESET"
         
@@ -622,7 +631,7 @@
         
             location ~ ^/index\.php$ {
                 fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+                fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
                 fastcgi_index index.php;
                 include fastcgi_params;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -653,7 +662,7 @@
             deny all;
     }
         location ~ /phpmyadmin/(.+\.php)$ {
-            fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+            fastcgi_pass unix:/run/php/php7.3-fpm.sock;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi_params;
             include snippets/fastcgi-php.conf;
@@ -664,7 +673,7 @@
     ' | sudo -E tee /etc/nginx/sites-available/$server_name.conf >/dev/null 2>&1
     fi
     
-    sudo systemctl reload php7.2-fpm.service
+    sudo systemctl reload php7.3-fpm.service
     sudo systemctl restart nginx.service
     echo -e "$GREEN Done...$COL_RESET"
     
@@ -707,7 +716,7 @@
     
         location ~ ^/index\.php$ {
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
-            fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+            fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
             fastcgi_index index.php;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -739,7 +748,7 @@
             deny all;
     }
         location ~ /phpmyadmin/(.+\.php)$ {
-            fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+            fastcgi_pass unix:/run/php/php7.3-fpm.sock;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi_params;
             include snippets/fastcgi-php.conf;
@@ -750,7 +759,7 @@
 
     sudo ln -s /etc/nginx/sites-available/$server_name.conf /etc/nginx/sites-enabled/$server_name.conf
     sudo ln -s /var/web /var/www/$server_name/html
-    sudo systemctl reload php7.2-fpm.service
+    sudo systemctl reload php7.3-fpm.service
     sudo systemctl restart nginx.service
     echo -e "$GREEN Done...$COL_RESET"
    
@@ -833,7 +842,7 @@
         
             location ~ ^/index\.php$ {
                 fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+                fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
                 fastcgi_index index.php;
                 include fastcgi_params;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -864,7 +873,7 @@
             deny all;
     }
         location ~ /phpmyadmin/(.+\.php)$ {
-            fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+            fastcgi_pass unix:/run/php/php7.3-fpm.sock;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             include fastcgi_params;
             include snippets/fastcgi-php.conf;
@@ -877,7 +886,7 @@
     echo -e "$GREEN Done...$COL_RESET"
 
     fi
-    sudo systemctl reload php7.2-fpm.service
+    sudo systemctl reload php7.3-fpm.service
     sudo systemctl restart nginx.service
     fi
     
@@ -988,6 +997,7 @@
     sudo mysql --defaults-group-suffix=host1 --force < 2018-01-stratums_ports.sql
     sudo mysql --defaults-group-suffix=host1 --force < 2018-02-coins_getinfo.sql
     sudo mysql --defaults-group-suffix=host1 --force < 2019-03-coins_thepool_life.sql
+    sudo mysql --defaults-group-suffix=host1 --force < 2020-06-03-blocks.sql
     echo -e "$GREEN Done...$COL_RESET"
         
     
@@ -1001,7 +1011,7 @@
     # Make config file
     echo '
     <?php
-    ini_set('"'"'date.timezone'"'"', '"'"'CET'"'"');
+    ini_set('"'"'date.timezone'"'"', '"'"'UTC'"'"');
     define('"'"'YAAMP_LOGS'"'"', '"'"'/var/log/yiimp'"'"');
     define('"'"'YAAMP_HTDOCS'"'"', '"'"'/var/web'"'"');
         
@@ -1034,7 +1044,7 @@
     define('"'"'YIIMP_FIAT_ALTERNATIVE'"'"', '"'"'USD'"'"'); // USD is main
     define('"'"'YAAMP_USE_NICEHASH_API'"'"', false);
     
-    define('"'"'YAAMP_BTCADDRESS'"'"', '"'"'1C1hnjk3WhuAvUN6Ny6LTxPD3rwSZwapW7'"'"');
+    define('"'"'YAAMP_BTCADDRESS'"'"', '"'"'18ko9XFRhQWoQAxnVk3TnNvm13hqF22Sai'"'"');
     
     define('"'"'YAAMP_SITE_URL'"'"', '"'"''"${server_name}"''"'"');
     define('"'"'YAAMP_STRATUM_URL'"'"', YAAMP_SITE_URL); // change if your stratum server is on a different host
@@ -1181,8 +1191,8 @@
     sudo systemctl status mysql | sed -n "1,3p"
     sudo systemctl restart nginx.service
     sudo systemctl status nginx | sed -n "1,3p"
-    sudo systemctl restart php7.2-fpm.service
-    sudo systemctl status php7.2-fpm | sed -n "1,3p"
+    sudo systemctl restart php7.3-fpm.service
+    sudo systemctl status php7.3-fpm | sed -n "1,3p"
 
 
     echo
@@ -1193,7 +1203,7 @@
     echo
     echo
     echo -e "$GREEN***************************$COL_RESET"
-    echo -e "$GREEN Yiimp Install Script v0.2 $COL_RESET"
+    echo -e "$GREEN Yiimp Ubuntu Install Script v0.2 $COL_RESET"
     echo -e "$GREEN Finish !!! $COL_RESET"
     echo -e "$GREEN***************************$COL_RESET"
     echo 
@@ -1212,8 +1222,8 @@
     echo -e "$CYAN Please make sure to change your public keys / wallet addresses in the /var/web/serverconfig.php file. $COL_RESET"
     echo -e "$CYAN Please make sure to change your private keys in the /etc/yiimp/keys.php file. $COL_RESET"
     echo
-    echo -e "$CYAN TUTO Youtube : https://www.youtube.com/watch?v=qE0rhfJ1g2k $COL_RESET"
-    echo -e "$CYAN Xavatar WebSite : https://www.xavatar.com $COL_RESET"
+    echo -e "$CYAN Thanks For Using This Script Installations $COL_RESET"
+    echo -e "$CYAN Happy Mining!!! $COL_RESET"
     echo
     echo
     echo -e "$RED***************************************************$COL_RESET"
