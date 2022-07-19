@@ -1164,6 +1164,9 @@
     sudo mkdir -p /var/yiimp/sauv
     sudo chgrp www-data /var/yiimp -R
     sudo chmod 775 /var/yiimp -R
+    
+    sudo chgrp www-data $HOME/buildcoin -R
+    sudo chmod g+w $HOME/buildcoin -R
 
 
     #Add to contrab screen-scrypt
