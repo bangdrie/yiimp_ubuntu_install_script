@@ -1,61 +1,59 @@
-# Yiimp_install_scrypt v0.2 (update Jul, 2022)
-
-Site : https://www.xavatar.com
-
-Discord : https://discord.gg/zcCXjkQ
-
-TUTO Youtube (16.04 / 18.04 - Without SSL) : https://www.youtube.com/watch?v=qE0rhfJ1g2k
-
-Official Yiimp (used in this script for Yiimp Installation): https://github.com/tpruvot/yiimp
-
-Original Yiimp Installer : https://github.com/cryptopool-builders/multipool_original_yiimp_installer
+# Yiimp Install Scrypt (update 2022-06-14) v0.3
+***********************************************
+<a href="https://discord.gg/GVZ4tchkKc"><img src="https://img.shields.io/discord/904564600354254898.svg?style=flat&label=Discord %3C3%20&color=7289DA%22" alt="Join Community Badge"/></a>
 
 
-***********************************
-
-## Install script for yiimp on Ubuntu Server 16.04 / 18.04 (use Tpruvot's Yiimp)
-
-USE THIS SCRIPT ON FRESH INSTALL UBUNTU Server 16.04 / 18.04 !
-
-Connect on your VPS =>
-- apt update
-- apt upgrade
-- reboot
-- adduser pool (pool it's just an example...)
-- adduser pool sudo
-- su - pool
-- exit 
-- su - pool
-- sudo apt -y install git
-- git clone https://github.com/bangdrie/yiimp_ubuntu_install_script.git
-- cd yiimp_ubuntu_install_script/
-- bash install.sh (DO NOT RUN THE SCRIPT AS ROOT or SUDO)
-- At the end, you MUST REBOOT to finalize installation...
-
-Finish !
-- Go http://xxx.xxx.xxx.xxx or https://xxx.xxx.xxx.xxx (if you have chosen LetsEncrypt SSL). Enjoy !
-- Go http://xxx.xxx.xxx.xxx/site/AdminPanel or https://xxx.xxx.xxx.xxx/site/AdminPanel to access Panel Admin
-
-If you are issue after installation (nginx,mariadb... not found), use this script : bash install-debug.sh (watch the log during installation)
 
 
-###### :bangbang: **YOU MUST UPDATE THE FOLLOWING FILES :**
-- **/var/web/serverconfig.php :** update this file to include your public ip (line = YAAMP_ADMIN_IP) to access the admin panel (Put your PERSONNAL IP, NOT IP of your VPS). update with public keys from exchanges. update with other information specific to your server..
-- **/etc/yiimp/keys.php :** update with secrect keys from the exchanges (not mandatory)
-- **If you want change 'AdminPanel' to access Panel Admin :** Edit this file "/var/web/yaamp/modules/site/SiteController.php" and Line 11 => change 'AdminPanel'
 
+###
 
-###### :bangbang: **IMPORTANT** : 
+## Install script for yiimp on Ubuntu Server 16.04 / 18.04
 
-- The configuration of yiimp and coin require a minimum of knowledge in linux
-- Your mysql information (login/Password) is saved in **~/.my.cnf**
+Use this script on fresh install ubuntu Server 16.04 / 18.04. ``` No other version is currently supported. ``` This install script will get you 95% ready to go with yiimp. There are a few things you need to do after the main install is finished.
+
+## First of all you need to create a new user i use pool, and upgrade the system.
+
+Update and upgrade your system.
+```
+sudo apt-get update && sudo apt-get upgrade -y
+```
+To create your new user and.
+```
+adduser pool
+```
+To add you new user to sudo group
+```
+adduser pool sudo
+```
+###
+
+### Clone the git repo
+- > Be sure you are have su in to your pool user before you clone it, else you clone it to root user
+
+```
+sudo su pool
+```
+### clone the git repo.
+```
+git clone https://github.com/bangdrie/yiimp_ubuntu_install_script.git
+```
+### cd to the installer map.
+```
+cd yiimp_ubuntu_install_script
+```
+### Now it's time to start the installation.
+```
+bash install.sh
+```
+- > It will take some time for the installation to be finnished and it will do for you.
 
 ***********************************
 
-###### This script has an interactive beginning and will ask for the following information :
+## This script has an interactive beginning and will ask for the following information :
 
-- Server Name (no http:// or www !!!!! Example : crypto.com OR pool.crypto.com OR 80.41.52.63)
-- Are you using a subdomain (mypoolx11.crypto.com)
+- Server Name (You can enter )(Example)): example.com or your ip of your vps like this 80.41.52.63)
+- Are you using a subdomain (subdomain.example.com)
 - Enter support email
 - Set stratum to AutoExchange
 - Your Public IP for admin access (Put your PERSONNAL IP, NOT IP of your VPS)
@@ -65,15 +63,43 @@ If you are issue after installation (nginx,mariadb... not found), use this scrip
 
 ***********************************
 
-**This install script will get you 95% ready to go with yiimp. There are a few things you need to do after the main install is finished.**
+Finish! Remember to 
+```
+sudo reboot
+```
+when the installer tell you to.
 
-While I did add some server security to the script, it is every server owners responsibility to fully secure their own servers. After the installation you will still need to customize your serverconfig.php file to your liking, add your API keys, and build/add your coins to the control panel. 
+- Access your new pool at (No-SSL) example.com/site/      (With SSL) https://www.example.com/site/
+- Access AdminPanel: (No-SSL) example.com/site/AdminPanel (With SSL) https://www.example.com/site/AdminPanel
 
-There will be several wallets already in yiimp. These have nothing to do with the installation script and are from the database import from the yiimp github. 
 
-If you need further assistance we have a small but growing discord channel at https://discord.gg/zcCXjkQ
+### Update keys.php if you have exchange (Enable)
 
-If this helped you or you feel giving please donate : 
+- > Update your public keys for exchanges (If Enable). update with Your own keys.. , you can change it by nano to,
+```
+sudo nano /etc/yiimp/keys.php
+```
+### Change AdminRights
+
+- > **If you want change your AdminRights to something else :** Edit this file "/SiteController.php" and Line 11 => change 'AdminPanel'
+
+```
+sudo nano /var/web/yaamp/modules/site/SiteController.php
+```
+###### :bangbang: **IMPORTANT** : 
+
+- The configuration of yiimp and coin require a minimum of knowledge in linux
+- Your mysql information (login/Password) is saved in **~/.my.cnf**
+
+*****************************************************************************
+
+While I did add some server security to the script, it is every server owners responsibility to fully secure their own servers. After the installation you will still need to customize your serverconfig.php file to your liking, add your API keys, and build/add your coins to the control panel.
+
+## 🎁 Support
+
+Donations for continued support of this script are welcomed at:
+
 - BTC Donation : 18ko9XFRhQWoQAxnVk3TnNvm13hqF22Sai
 - BCH Donation : 18ko9XFRhQWoQAxnVk3TnNvm13hqF22Sai
 - ETH Donation : 0xe5c3e0a3d15fb17729cd906d0b0e1516428afeea
+
