@@ -374,13 +374,13 @@
     
     # Compil Blocknotify
     cd ~
-    git clone https://github.com/bangdrie/yiimp-fix.git -b poolmine
-    cd $HOME/yiimp-fix/blocknotify
+    git clone https://github.com/bangdrie/yiimp.git -b main
+    cd $HOME/yiimp/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     make -j$((`nproc`+1))
     
     # Compil Stratum
-    cd $HOME/yiimp-fix/stratum/
+    cd $HOME/yiimp/stratum/
     git submodule init && git submodule update 
     make -C algos
     make -C sha3
@@ -388,23 +388,23 @@
     cd secp256k1 && chmod +x autogen.sh && ./autogen.sh && ./configure --enable-experimental --enable-module-ecdh --with-bignum=no --enable-endomorphism && make
     cd $HOME/yiimp/stratum/
     if [[ ("$BTC" == "y" || "$BTC" == "Y") ]]; then
-    sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' $HOME/yiimp-fix/stratum/Makefile
+    sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' $HOME/yiimp/stratum/Makefile
     fi
     make -j$((`nproc`+1))
     
     # Copy Files (Blocknotify,iniparser,Stratum)
-    cd $HOME/yiimp-fix
-    sudo sed -i 's/myadmin/'AdminPanel'/' $HOME/yiimp-fix/web/yaamp/modules/site/SiteController.php
-    sudo cp -r $HOME/yiimp-fix/web /var/
+    cd $HOME/yiimp
+    sudo sed -i 's/myadmin/'AdminPanel'/' $HOME/yiimp/web/yaamp/modules/site/SiteController.php
+    sudo cp -r $HOME/yiimp/web /var/
     sudo mkdir -p /var/stratum
-    cd $HOME/yiimp-fix/stratum
+    cd $HOME/yiimp/stratum
     sudo cp -a config.sample/. /var/stratum/config
     sudo cp -r stratum /var/stratum
     sudo cp -r run.sh /var/stratum
     cd $HOME/yiimp
-    sudo cp -r $HOME/yiimp-fix/bin/. /bin/
-    sudo cp -r $HOME/yiimp-fix/blocknotify/blocknotify /bin/
-    sudo cp -r $HOME/yiimp-fix/blocknotify/blocknotify /var/stratum/
+    sudo cp -r $HOME/yiimp/bin/. /bin/
+    sudo cp -r $HOME/yiimp/blocknotify/blocknotify /bin/
+    sudo cp -r $HOME/yiimp/blocknotify/blocknotify /var/stratum/
     sudo mkdir -p /etc/yiimp
     sudo mkdir -p /$HOME/backup/
     #fixing yiimp
