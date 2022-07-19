@@ -1,4 +1,4 @@
-# Yiimp Install Scrypt (update 2022-06-14) v0.3
+# Yiimp Install Scrypt (update 2022-07-19) v0.2
 ***********************************************
 <a href="https://discord.gg/Usex7DQegN"><img src="https://img.shields.io/discord/904564600354254898.svg?style=flat&label=Discord %3C3%20&color=7289DA%22" alt="Join Community Badge"/></a>
 
