@@ -8,12 +8,6 @@
 #   Install yiimp on Ubuntu 16.04/18.04 running Nginx, MariaDB, and php7.2
 #   v0.2 (update Avril, 2020)
 # 
-# Current modified by : bangdrie
-# web: https://github.com/bangdrie
-# Program:
-#   Install yiimp on Ubuntu 16.04/18.04 running Nginx, MariaDB, and php7.2
-#   v0.2 (2022-07-19 Fixed solo fee in serverconfig.php)
-#        (2022-07-19 added block.sql and coins_thepool_life.sql dump)
 ################################################################################
     
 
@@ -39,13 +33,8 @@
     ' | sudo -E tee /etc/sudoers.d/${whoami} >/dev/null 2>&1
     
     #Copy needed files
-    cd
-    sudo mkdir buildcoin
-    cd $HOME/yiimp_install_script
     sudo cp -r conf/functions.sh /etc/
     sudo cp -r utils/screen-scrypt.sh /etc/
-    sudo cp -r utils/screen-stratum.sh /etc/
-    sudo cp -r utils/builder.sh $HOME/buildcoin
     sudo cp -r conf/editconf.py /usr/bin/
     sudo chmod +x /usr/bin/editconf.py
     sudo chmod +x /etc/screen-scrypt.sh
@@ -56,8 +45,8 @@
     clear
     echo
     echo -e "$GREEN************************************************************************$COL_RESET"
-    echo -e "$GREEN Yiimp Install Script v0.2 Modified by bangdrie $COL_RESET"
-    echo -e "$GREEN Install yiimp on Ubuntu 16.04/18.04 running Nginx, MariaDB, and php7.2 $COL_RESET"
+    echo -e "$GREEN Yiimp Install Script v0.2 $COL_RESET"
+    echo -e "$GREEN Install yiimp on Ubuntu 16.04/18.04 running Nginx, MariaDB, and php7.4 $COL_RESET"
     echo -e "$GREEN************************************************************************$COL_RESET"
     echo
     sleep 3
@@ -385,7 +374,7 @@
     
     # Compil Blocknotify
     cd ~
-    git clone https://github.com/bangdrie/yiimp2
+    git clone https://github.com/Kudaraidee/yiimp.git -b poolmine
     cd $HOME/yiimp/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     make -j$((`nproc`+1))
@@ -405,7 +394,7 @@
     
     # Copy Files (Blocknotify,iniparser,Stratum)
     cd $HOME/yiimp
-    sudo sed -i 's/myadmin/'AdminPanel'/' $HOME/yiimp/web/yaamp/modules/site/SiteController.php
+    sudo sed -i 's/AdminRights/'AdminPanel'/' $HOME/yiimp/web/yaamp/modules/site/SiteController.php
     sudo cp -r $HOME/yiimp/web /var/
     sudo mkdir -p /var/stratum
     cd $HOME/yiimp/stratum
@@ -416,10 +405,6 @@
     sudo cp -r $HOME/yiimp/bin/. /bin/
     sudo cp -r $HOME/yiimp/blocknotify/blocknotify /bin/
     sudo cp -r $HOME/yiimp/blocknotify/blocknotify /var/stratum/
-    sudo chmod +x /bin/blocknotify.sh
-    sudo chmod +x /bin/kill_stratum
-    sudo chmod +x /bin/yiimp
-    sudo chmod +x /bin/yiimp_restart_loop.sh    
     sudo mkdir -p /etc/yiimp
     sudo mkdir -p /$HOME/backup/
     #fixing yiimp
@@ -997,7 +982,6 @@
     sudo mysql --defaults-group-suffix=host1 --force < 2018-01-stratums_ports.sql
     sudo mysql --defaults-group-suffix=host1 --force < 2018-02-coins_getinfo.sql
     sudo mysql --defaults-group-suffix=host1 --force < 2019-03-coins_thepool_life.sql
-    sudo mysql --defaults-group-suffix=host1 --force < 2020-06-03-blocks.sql
     echo -e "$GREEN Done...$COL_RESET"
         
     
@@ -1044,7 +1028,7 @@
     define('"'"'YIIMP_FIAT_ALTERNATIVE'"'"', '"'"'USD'"'"'); // USD is main
     define('"'"'YAAMP_USE_NICEHASH_API'"'"', false);
     
-    define('"'"'YAAMP_BTCADDRESS'"'"', '"'"'18ko9XFRhQWoQAxnVk3TnNvm13hqF22Sai'"'"');
+    define('"'"'YAAMP_BTCADDRESS'"'"', '"'"'1C1hnjk3WhuAvUN6Ny6LTxPD3rwSZwapW7'"'"');
     
     define('"'"'YAAMP_SITE_URL'"'"', '"'"''"${server_name}"''"'"');
     define('"'"'YAAMP_STRATUM_URL'"'"', YAAMP_SITE_URL); // change if your stratum server is on a different host
@@ -1222,8 +1206,8 @@
     echo -e "$CYAN Please make sure to change your public keys / wallet addresses in the /var/web/serverconfig.php file. $COL_RESET"
     echo -e "$CYAN Please make sure to change your private keys in the /etc/yiimp/keys.php file. $COL_RESET"
     echo
-    echo -e "$CYAN Thanks For Using This Script Installations $COL_RESET"
-    echo -e "$CYAN Happy Mining!!! $COL_RESET"
+    echo -e "$CYAN TUTO Youtube : https://www.youtube.com/watch?v=qE0rhfJ1g2k $COL_RESET"
+    echo -e "$CYAN Xavatar WebSite : https://www.xavatar.com $COL_RESET"
     echo
     echo
     echo -e "$RED***************************************************$COL_RESET"
